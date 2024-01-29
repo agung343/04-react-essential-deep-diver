@@ -1,34 +1,17 @@
 // how to update state immutability
 // lifting state
 
-import React, { useState } from "react";
 
-const init = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
-];
 
-function GameBoard({ onActivePlayer, activePlayerSymbol }) {
-  const [gameBoard, setGameBoard] = useState(init);
-
-  function handleSelectSquare(rowIndex, colIndex) {
-    setGameBoard((prevBoard) => {
-      const updatedBoard = [...prevBoard.map((innerArray) => [...innerArray])];
-      updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
-      return updatedBoard;
-    });
-
-    onActivePlayer();
-  }
+function GameBoard({ onActivePlayer, board }) {
   return (
     <ol id="game-board">
-      {gameBoard.map((row, rowIdx) => (
+      {board.map((row, rowIdx) => (
         <li key={rowIdx}>
           <ol>
             {row.map((playerSymbol, colIdx) => (
               <li key={colIdx}>
-                <button onClick={() => handleSelectSquare(rowIdx, colIdx)}>
+                <button onClick={() => onActivePlayer(rowIdx, colIdx)} disabled={playerSymbol !==  null }>
                   {playerSymbol}
                 </button>
               </li>
